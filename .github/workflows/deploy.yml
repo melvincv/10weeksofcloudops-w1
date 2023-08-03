@@ -6,7 +6,7 @@ on:
       - main
       
 jobs:
-  deploy:
+  deploy-to-s3:
     runs-on: ubuntu-latest
 
     steps:
@@ -23,3 +23,7 @@ jobs:
       - name: Deploy to S3
         run: |
           aws s3 sync www s3://melvincv2023-cloudops-w1 --delete
+      
+      - name: Invalidate CloudFront cache
+        run: |
+          aws cloudfront create-invalidation --distribution-id E12J9I3XUIQBDB --paths "/*"
